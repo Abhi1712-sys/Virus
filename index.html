@@ -10,16 +10,16 @@
 
 body{
     margin:0;
-    min-height:100vh;
+    height:100vh;
     font-family:'Comic Sans MS', cursive;
     background:url('bg.jpg') center/cover no-repeat fixed;
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
+    overflow:hidden; /* body never scrolls */
 }
 
-/* night overlay */
+/* 🌙 Night overlay */
 .overlay{
     position:fixed;
     inset:0;
@@ -27,39 +27,42 @@ body{
     z-index:0;
 }
 
-/* card */
+/* Card */
 .card{
     position:relative;
     z-index:2;
     background:rgba(20,25,50,0.95);
-    padding:22px;
-    border-radius:30px;
     width:94%;
     max-width:430px;
-    max-height:90vh;              /* 👈 important */
+    max-height:90vh;          /* IMPORTANT */
+    border-radius:30px;
     box-shadow:0 20px 50px rgba(0,0,0,0.6);
+    overflow:hidden;          /* keeps card clean */
     color:#f5f5f5;
-    overflow:hidden;              /* keeps card clean */
 }
 
-/* scrollable YES screen */
-.scroll-area{
-    max-height:80vh;
-    overflow-y:auto;
-    padding-right:6px;
-    -webkit-overflow-scrolling:touch;
+/* Shared content padding */
+.content{
+    padding:22px;
 }
 
-/* hide scrollbar (still scrolls) */
-.scroll-area::-webkit-scrollbar{
+/* YES SCREEN SCROLL */
+.scroll-container{
+    max-height:90vh;
+    overflow-y:auto;          /* THIS enables scroll */
+    -webkit-overflow-scrolling:touch; /* Safari smooth scroll */
+}
+
+/* Optional scrollbar styling */
+.scroll-container::-webkit-scrollbar{
     width:4px;
 }
-.scroll-area::-webkit-scrollbar-thumb{
+.scroll-container::-webkit-scrollbar-thumb{
     background:#ff9fcf;
     border-radius:10px;
 }
 
-/* images */
+/* Images */
 .card img{
     width:100%;
     max-width:260px;
@@ -67,11 +70,11 @@ body{
     margin-bottom:15px;
 }
 
-/* text */
+/* Text */
 h1{color:#ff9fcf;}
 p{color:#ddd;font-size:16px;line-height:1.7;}
 
-/* buttons */
+/* Buttons */
 .buttons{
     position:relative;
     height:120px;
@@ -85,70 +88,72 @@ button{
     cursor:pointer;
 }
 
-/* yes */
+/* YES */
 #yes{
     background:linear-gradient(45deg,#ff5fa2,#ff9fcf);
     color:white;
 }
 
-/* no */
+/* NO */
 #no{
     background:#2a2f55;
     color:#ccc;
     position:fixed;
 }
 
-/* music */
+/* Music */
 #musicBtn{
     background:#ff5fa2;
     color:white;
     margin-bottom:12px;
 }
 
-/* gallery */
-.gallery{
-    display:none;
-    margin-top:15px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-.gallery.show{display:grid;}
-.gallery img{
-    width:100%;
-    border-radius:15px;
-    cursor:pointer;
-}
-.gallery figcaption{
-    font-size:13px;
-    color:#ff9fcf;
-    margin-top:4px;
-}
-
-/* video */
+/* Video */
 video{
     width:100%;
     border-radius:20px;
     margin:15px 0;
 }
 
-/* special text */
+/* Hindi line */
 .hindi-line{
     font-size:22px;
     font-weight:bold;
     margin:15px 0;
     color:#ff9fcf;
-}
-.final-line{
-    font-size:18px;
-    margin-top:20px;
-    font-style:italic;
-    color:#ccc;
+    text-align:left;
 }
 
-/* mobile */
-@media(max-width:400px){
-    .gallery{grid-template-columns:1fr;}
+/* Memories LEFT */
+.gallery{
+    display:none;
+    flex-direction:column;
+    gap:14px;
+    align-items:flex-start;
+}
+.gallery.show{display:flex;}
+
+.gallery figure{
+    margin:0;
+    text-align:left;
+}
+.gallery img{
+    max-width:200px;
+    width:100%;
+    border-radius:15px;
+}
+.gallery figcaption{
+    font-size:13px;
+    color:#ff9fcf;
+}
+
+/* Final line */
+.final-line{
+    font-size:18px;
+    margin:20px 0;
+    font-style:italic;
+    color:#ccc;
+    text-align:left;
 }
 </style>
 </head>
@@ -161,8 +166,8 @@ video{
 
 <div class="card">
 
-<!-- 🔹 SCREEN 1 -->
-<div id="screen1">
+<!-- 🔹 SCREEN 1 (NO SCROLL) -->
+<div id="screen1" class="content">
 
     <button id="musicBtn" onclick="enableMusic()">Enable Music 🎵</button>
 
@@ -175,14 +180,14 @@ video{
     <div class="buttons">
         <button id="yes" onclick="showYes()">Yes 💖</button>
         <button id="no"
-            onmouseenter="moveNo()"
-            ontouchstart="moveNo()">No 😢</button>
+        onmouseenter="moveNo()"
+        ontouchstart="moveNo()">No 😢</button>
     </div>
 
 </div>
 
 <!-- 🔹 SCREEN 2 (SCROLL ENABLED) -->
-<div id="screen2" class="scroll-area" style="display:none;">
+<div id="screen2" class="scroll-container content" style="display:none;">
 
     <img src="after.jpg">
 
@@ -234,33 +239,30 @@ video{
 </div>
 
 <script>
-const music = document.getElementById("music");
+const music=document.getElementById("music");
 
 function enableMusic(){
-    music.volume = 0.7;
+    music.volume=0.7;
     music.play();
     document.getElementById("musicBtn").style.display="none";
 }
 
-/* NO button */
 function moveNo(){
     const no=document.getElementById("no");
     no.style.left=Math.random()*(window.innerWidth-no.offsetWidth)+"px";
     no.style.top=Math.random()*(window.innerHeight-no.offsetHeight)+"px";
 }
 
-/* YES */
 function showYes(){
     document.getElementById("screen1").style.display="none";
     document.getElementById("screen2").style.display="block";
 
-    const video = document.getElementById("memoryVideo");
+    const video=document.getElementById("memoryVideo");
     video.addEventListener("play",()=>music.pause());
     video.addEventListener("pause",()=>music.play());
     video.addEventListener("ended",()=>music.play());
 }
 
-/* SHOW GALLERY */
 function showGallery(){
     document.getElementById("gallery").classList.add("show");
 }
