@@ -27,18 +27,6 @@ body{
     z-index:0;
 }
 
-/* floating hearts */
-.heart{
-    position:fixed;
-    bottom:-20px;
-    animation:floatUp 6s linear infinite;
-    font-size:18px;
-    z-index:1;
-}
-@keyframes floatUp{
-    to{transform:translateY(-110vh);opacity:0;}
-}
-
 /* card */
 .card{
     position:relative;
@@ -61,16 +49,8 @@ body{
 }
 
 /* text */
-h1{
-    color:#ff4d88;
-    font-size:26px;
-    min-height:34px;
-}
-p{
-    color:#444;
-    font-size:16px;
-    line-height:1.6;
-}
+h1{color:#ff4d88;}
+p{color:#444;font-size:16px;line-height:1.6;}
 
 /* buttons */
 .buttons{
@@ -86,16 +66,9 @@ button{
     cursor:pointer;
 }
 
-/* glowing YES */
 #yes{
     background:#ff4d88;
     color:white;
-    animation:glow 1.6s infinite;
-}
-@keyframes glow{
-    0%{box-shadow:0 0 5px #ff4d88;}
-    50%{box-shadow:0 0 20px #ff4d88;}
-    100%{box-shadow:0 0 5px #ff4d88;}
 }
 
 #no{
@@ -103,18 +76,14 @@ button{
     position:fixed;
 }
 
-/* fireworks */
-.firework{
-    position:fixed;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    animation:explode 1.2s ease-out forwards;
-    z-index:3;
-}
-@keyframes explode{
-    from{transform:scale(0);opacity:1;}
-    to{transform:scale(6);opacity:0;}
+/* MUSIC BUTTON */
+#musicBtn{
+    margin-bottom:15px;
+    background:#ff4d88;
+    color:white;
+    padding:10px 20px;
+    border-radius:25px;
+    font-size:14px;
 }
 </style>
 </head>
@@ -123,14 +92,16 @@ button{
 
 <div class="overlay"></div>
 
-<!-- MUSIC (PLAYS WHOLE TIME AFTER FIRST TAP) -->
 <audio id="music" src="music.mp3" loop></audio>
 
 <div class="card" id="card">
 
+    <!-- SAFARI REQUIRES THIS -->
+    <button id="musicBtn" onclick="enableMusic()">Enable Music 🎵</button>
+
     <img src="main.jpg" alt="main image">
 
-    <h1 id="name"></h1>
+    <h1>Palak ❤️</h1>
 
     <p>Will you be my Valentine? 💌</p>
 
@@ -144,41 +115,13 @@ button{
 </div>
 
 <script>
-/* START MUSIC ON FIRST USER INTERACTION */
-let musicStarted = false;
 const music = document.getElementById("music");
 
-function startMusic(){
-    if(!musicStarted){
-        music.volume = 0.8;
-        music.play();
-        musicStarted = true;
-    }
+function enableMusic(){
+    music.volume = 0.8;
+    music.play();
+    document.getElementById("musicBtn").style.display="none";
 }
-document.addEventListener("click", startMusic, { once:true });
-document.addEventListener("touchstart", startMusic, { once:true });
-
-/* typing effect */
-const nameText = "Palak ❤️";
-let i = 0;
-function typeName(){
-    if(i < nameText.length){
-        document.getElementById("name").innerHTML += nameText.charAt(i);
-        i++;
-        setTimeout(typeName,120);
-    }
-}
-typeName();
-
-/* floating hearts */
-setInterval(()=>{
-    const h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="💗";
-    h.style.left=Math.random()*100+"vw";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-},500);
 
 /* NO button escape */
 function moveNo(){
@@ -187,33 +130,14 @@ function moveNo(){
     no.style.top=Math.random()*(window.innerHeight-no.offsetHeight)+"px";
 }
 
-/* fireworks */
-function fireworks(){
-    for(let i=0;i<25;i++){
-        const f=document.createElement("div");
-        f.className="firework";
-        f.style.left=Math.random()*100+"vw";
-        f.style.top=Math.random()*100+"vh";
-        f.style.background=`hsl(${Math.random()*360},100%,70%)`;
-        document.body.appendChild(f);
-        setTimeout(()=>f.remove(),1200);
-    }
-}
-
-/* YES click */
+/* YES */
 function yesClicked(){
-    fireworks();
-
     document.getElementById("card").innerHTML = `
-        <img src="after.jpg" alt="after image">
+        <img src="after.jpg">
         <h1>I love you ❤️</h1>
         <p>
         From all the moments life could have given me,<br>
-        it chose <b>you</b> — quietly, beautifully, forever.<br><br>
-
-        In your smile, I found comfort.<br>
-        In your presence, I found home.<br><br>
-
+        it gave me <b>you</b> — and that’s my forever.<br><br>
         <span style="color:#ff4d88;font-weight:bold;">
         You smiled. I smiled.
         </span>
