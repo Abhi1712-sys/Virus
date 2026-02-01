@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
 
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Comic Sans MS', cursive;
+    background:url('bg.jpg') center/cover no-repeat fixed;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* overlay for readability */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(255,200,220,0.6);
+    z-index:0;
+}
+
+/* card */
+.card{
+    position:relative;
+    z-index:1;
+    background:white;
+    padding:30px;
+    border-radius:30px;
+    width:92%;
+    max-width:420px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+/* images */
+.card img{
+    width:100%;
+    max-width:280px;
+    border-radius:20px;
+    margin-bottom:15px;
+}
+
+/* text */
+h1{
+    color:#ff4d88;
+}
+p{
+    color:#444;
+    font-size:18px;
+    line-height:1.6;
+}
+
+/* buttons */
+.buttons{
+    position:relative;
+    height:120px;
+    margin-top:20px;
+}
+button{
+    padding:12px 28px;
+    font-size:16px;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+}
+
+#yes{
+    background:#ff4d88;
+    color:white;
+}
+
+#no{
+    background:#ffd6e8;
+    position:fixed;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="card" id="card">
+
+    <!-- MAIN IMAGE -->
+    <img src="main.jpg" alt="main image">
+
+    <h1>Palak ❤️</h1>
+
+    <p>Will you be my Valentine? 💌</p>
+
+    <div class="buttons">
+        <button id="yes" onclick="yesClicked()">Yes 💖</button>
+        <button id="no"
+            onmouseenter="moveNo()"
+            ontouchstart="moveNo()">No 😢</button>
+    </div>
+
+</div>
+
+<script>
+/* NO button runs away */
+function moveNo(){
+    const no = document.getElementById("no");
+    const x = Math.random() * (window.innerWidth - no.offsetWidth);
+    const y = Math.random() * (window.innerHeight - no.offsetHeight);
+    no.style.left = x + "px";
+    no.style.top = y + "px";
+}
+
+/* YES click */
+function yesClicked(){
+    document.getElementById("card").innerHTML = `
+        <img src="after.jpg" alt="after image">
+        <h1>I love you ❤️</h1>
+        <p>
+            From all the moments life could have given me,<br>
+            it gave me <b>you</b> — and that’s my favorite one.<br><br>
+            Today, tomorrow, and every day after this 💕
+        </p>
+        <p style="color:#ff4d88;">You smiled. I smiled.</p>
+    `;
+}
+</script>
+
+</body>
+</html>
