@@ -78,7 +78,6 @@ p{
     height:120px;
     margin-top:16px;
 }
-
 button{
     padding:12px 26px;
     font-size:16px;
@@ -124,15 +123,13 @@ button{
 
 <div class="overlay"></div>
 
-<audio id="music" loop>
-    <source src="music.mp3" type="audio/mpeg">
-</audio>
+<!-- MUSIC (PLAYS WHOLE TIME AFTER FIRST TAP) -->
+<audio id="music" src="music.mp3" loop></audio>
 
 <div class="card" id="card">
 
     <img src="main.jpg" alt="main image">
 
-    <!-- Typing name -->
     <h1 id="name"></h1>
 
     <p>Will you be my Valentine? 💌</p>
@@ -147,6 +144,20 @@ button{
 </div>
 
 <script>
+/* START MUSIC ON FIRST USER INTERACTION */
+let musicStarted = false;
+const music = document.getElementById("music");
+
+function startMusic(){
+    if(!musicStarted){
+        music.volume = 0.8;
+        music.play();
+        musicStarted = true;
+    }
+}
+document.addEventListener("click", startMusic, { once:true });
+document.addEventListener("touchstart", startMusic, { once:true });
+
 /* typing effect */
 const nameText = "Palak ❤️";
 let i = 0;
@@ -191,32 +202,21 @@ function fireworks(){
 
 /* YES click */
 function yesClicked(){
-
-    /* PLAY MUSIC (FIXED) */
-    const music = document.getElementById("music");
-    music.currentTime = 0;
-    music.volume = 0.8;
-    music.play();
-
     fireworks();
 
     document.getElementById("card").innerHTML = `
         <img src="after.jpg" alt="after image">
-
         <h1>I love you ❤️</h1>
-
         <p>
         From all the moments life could have given me,<br>
         it chose <b>you</b> — quietly, beautifully, forever.<br><br>
 
         In your smile, I found comfort.<br>
-        In your presence, I found home.<br>
-        And in choosing you today,<br>
-        I choose every tomorrow too 💕
-        </p>
+        In your presence, I found home.<br><br>
 
-        <p style="color:#ff4d88;font-weight:bold;">
+        <span style="color:#ff4d88;font-weight:bold;">
         You smiled. I smiled.
+        </span>
         </p>
     `;
 }
