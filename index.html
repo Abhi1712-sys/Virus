@@ -23,7 +23,7 @@ body{
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(255,200,220,0.6);
+    background:rgba(255,200,220,0.65);
     z-index:0;
 }
 
@@ -44,9 +44,9 @@ body{
     position:relative;
     z-index:2;
     background:white;
-    padding:30px;
+    padding:24px;
     border-radius:30px;
-    width:92%;
+    width:94%;
     max-width:420px;
     text-align:center;
     box-shadow:0 15px 40px rgba(0,0,0,0.3);
@@ -55,16 +55,20 @@ body{
 /* images */
 .card img{
     width:100%;
-    max-width:280px;
+    max-width:260px;
     border-radius:20px;
     margin-bottom:15px;
 }
 
 /* text */
-h1{color:#ff4d88;}
+h1{
+    color:#ff4d88;
+    font-size:26px;
+    min-height:34px;
+}
 p{
     color:#444;
-    font-size:18px;
+    font-size:16px;
     line-height:1.6;
 }
 
@@ -72,19 +76,27 @@ p{
 .buttons{
     position:relative;
     height:120px;
-    margin-top:20px;
+    margin-top:16px;
 }
+
 button{
-    padding:12px 28px;
+    padding:12px 26px;
     font-size:16px;
     border-radius:30px;
     border:none;
     cursor:pointer;
 }
 
+/* glowing YES */
 #yes{
     background:#ff4d88;
     color:white;
+    animation:glow 1.6s infinite;
+}
+@keyframes glow{
+    0%{box-shadow:0 0 5px #ff4d88;}
+    50%{box-shadow:0 0 20px #ff4d88;}
+    100%{box-shadow:0 0 5px #ff4d88;}
 }
 
 #no{
@@ -112,17 +124,16 @@ button{
 
 <div class="overlay"></div>
 
-<!-- music (starts after YES) -->
 <audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card" id="card">
 
-    <!-- MAIN IMAGE -->
     <img src="main.jpg" alt="main image">
 
-    <h1>Palak ❤️</h1>
+    <!-- Typing name -->
+    <h1 id="name"></h1>
 
     <p>Will you be my Valentine? 💌</p>
 
@@ -136,7 +147,19 @@ button{
 </div>
 
 <script>
-/* hearts */
+/* typing effect */
+const nameText = "Palak ❤️";
+let i = 0;
+function typeName(){
+    if(i < nameText.length){
+        document.getElementById("name").innerHTML += nameText.charAt(i);
+        i++;
+        setTimeout(typeName,120);
+    }
+}
+typeName();
+
+/* floating hearts */
 setInterval(()=>{
     const h=document.createElement("div");
     h.className="heart";
@@ -168,18 +191,33 @@ function fireworks(){
 
 /* YES click */
 function yesClicked(){
-    document.getElementById("music").play();
+
+    /* PLAY MUSIC (FIXED) */
+    const music = document.getElementById("music");
+    music.currentTime = 0;
+    music.volume = 0.8;
+    music.play();
+
     fireworks();
 
     document.getElementById("card").innerHTML = `
         <img src="after.jpg" alt="after image">
+
         <h1>I love you ❤️</h1>
+
         <p>
-            Out of all the moments life could have given me,<br>
-            it gave me <b>you</b> — and that’s my favorite one.<br><br>
-            Today, tomorrow, and every day after this 💕
+        From all the moments life could have given me,<br>
+        it chose <b>you</b> — quietly, beautifully, forever.<br><br>
+
+        In your smile, I found comfort.<br>
+        In your presence, I found home.<br>
+        And in choosing you today,<br>
+        I choose every tomorrow too 💕
         </p>
-        <p style="color:#ff4d88;">You smiled. I smiled.</p>
+
+        <p style="color:#ff4d88;font-weight:bold;">
+        You smiled. I smiled.
+        </p>
     `;
 }
 </script>
