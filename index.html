@@ -16,9 +16,10 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
+    overflow:hidden;
 }
 
-/* overlay for readability */
+/* overlay */
 .overlay{
     position:fixed;
     inset:0;
@@ -26,10 +27,22 @@ body{
     z-index:0;
 }
 
+/* floating hearts */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    animation:floatUp 6s linear infinite;
+    font-size:18px;
+    z-index:1;
+}
+@keyframes floatUp{
+    to{transform:translateY(-110vh);opacity:0;}
+}
+
 /* card */
 .card{
     position:relative;
-    z-index:1;
+    z-index:2;
     background:white;
     padding:30px;
     border-radius:30px;
@@ -48,9 +61,7 @@ body{
 }
 
 /* text */
-h1{
-    color:#ff4d88;
-}
+h1{color:#ff4d88;}
 p{
     color:#444;
     font-size:18px;
@@ -80,12 +91,31 @@ button{
     background:#ffd6e8;
     position:fixed;
 }
+
+/* fireworks */
+.firework{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    animation:explode 1.2s ease-out forwards;
+    z-index:3;
+}
+@keyframes explode{
+    from{transform:scale(0);opacity:1;}
+    to{transform:scale(6);opacity:0;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="overlay"></div>
+
+<!-- music (starts after YES) -->
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <div class="card" id="card">
 
@@ -106,22 +136,46 @@ button{
 </div>
 
 <script>
-/* NO button runs away */
+/* hearts */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💗";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},500);
+
+/* NO button escape */
 function moveNo(){
-    const no = document.getElementById("no");
-    const x = Math.random() * (window.innerWidth - no.offsetWidth);
-    const y = Math.random() * (window.innerHeight - no.offsetHeight);
-    no.style.left = x + "px";
-    no.style.top = y + "px";
+    const no=document.getElementById("no");
+    no.style.left=Math.random()*(window.innerWidth-no.offsetWidth)+"px";
+    no.style.top=Math.random()*(window.innerHeight-no.offsetHeight)+"px";
+}
+
+/* fireworks */
+function fireworks(){
+    for(let i=0;i<25;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*100+"vh";
+        f.style.background=`hsl(${Math.random()*360},100%,70%)`;
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1200);
+    }
 }
 
 /* YES click */
 function yesClicked(){
+    document.getElementById("music").play();
+    fireworks();
+
     document.getElementById("card").innerHTML = `
         <img src="after.jpg" alt="after image">
-        <h1>I love you Palak❤️</h1>
+        <h1>I love you ❤️</h1>
         <p>
-            From all the moments life could have given me,<br>
+            Out of all the moments life could have given me,<br>
             it gave me <b>you</b> — and that’s my favorite one.<br><br>
             Today, tomorrow, and every day after this 💕
         </p>
