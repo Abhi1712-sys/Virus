@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine ❤️</title>
+<title>For You 🤍</title>
 
 <style>
 *{box-sizing:border-box;}
@@ -19,11 +19,11 @@ body{
     overflow:hidden;
 }
 
-/* overlay */
+/* 🌙 NIGHT OVERLAY */
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(255,200,220,0.65);
+    background:rgba(10,15,35,0.75);
     z-index:0;
 }
 
@@ -31,13 +31,14 @@ body{
 .card{
     position:relative;
     z-index:2;
-    background:white;
-    padding:24px;
+    background:rgba(20,25,50,0.95);
+    padding:22px;
     border-radius:30px;
     width:94%;
-    max-width:420px;
+    max-width:430px;
     text-align:center;
-    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+    color:#f5f5f5;
 }
 
 /* images */
@@ -49,8 +50,8 @@ body{
 }
 
 /* text */
-h1{color:#ff4d88;}
-p{color:#444;font-size:16px;line-height:1.6;}
+h1{color:#ff9fcf;}
+p{color:#ddd;font-size:16px;line-height:1.7;}
 
 /* buttons */
 .buttons{
@@ -59,31 +60,97 @@ p{color:#444;font-size:16px;line-height:1.6;}
     margin-top:16px;
 }
 button{
-    padding:12px 26px;
-    font-size:16px;
+    padding:12px 24px;
+    font-size:15px;
     border-radius:30px;
     border:none;
     cursor:pointer;
 }
 
+/* yes */
 #yes{
-    background:#ff4d88;
+    background:linear-gradient(45deg,#ff5fa2,#ff9fcf);
     color:white;
 }
 
+/* no */
 #no{
-    background:#ffd6e8;
+    background:#2a2f55;
+    color:#ccc;
     position:fixed;
 }
 
-/* MUSIC BUTTON */
+/* music */
 #musicBtn{
-    margin-bottom:15px;
-    background:#ff4d88;
+    background:#ff5fa2;
     color:white;
-    padding:10px 20px;
-    border-radius:25px;
-    font-size:14px;
+    margin-bottom:12px;
+}
+
+/* gallery */
+.gallery{
+    display:none;
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    opacity:0;
+    transform:translateY(10px);
+    transition:all 0.5s ease;
+}
+.gallery.show{opacity:1;transform:translateY(0);}
+.gallery img{
+    width:100%;
+    border-radius:15px;
+    cursor:pointer;
+}
+.gallery figcaption{
+    font-size:13px;
+    color:#ff9fcf;
+    margin-top:4px;
+}
+
+/* video */
+video{
+    width:100%;
+    border-radius:20px;
+    margin:15px 0;
+}
+
+/* fullscreen viewer */
+.viewer{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+.viewer img{
+    max-width:90%;
+    max-height:90%;
+    border-radius:20px;
+}
+
+/* special text */
+.hindi-line{
+    font-size:22px;
+    font-weight:bold;
+    margin:15px 0;
+    color:#ff9fcf;
+}
+
+.final-line{
+    font-size:18px;
+    margin-top:20px;
+    font-style:italic;
+    color:#ccc;
+}
+
+/* mobile */
+@media(max-width:400px){
+    .gallery{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -96,53 +163,126 @@ button{
 
 <div class="card" id="card">
 
-    <!-- SAFARI REQUIRES THIS -->
+    <!-- SAFARI MUSIC -->
     <button id="musicBtn" onclick="enableMusic()">Enable Music 🎵</button>
 
-    <img src="main.jpg" alt="main image">
+    <img src="main.jpg" alt="main">
 
-    <h1>Palak ❤️</h1>
+    <h1>Palak 🤍</h1>
 
-    <p>Will you be my Valentine? 💌</p>
+    <p>Will you be my Valentine? 🌙</p>
 
     <div class="buttons">
         <button id="yes" onclick="yesClicked()">Yes 💖</button>
         <button id="no"
-            onmouseenter="moveNo()"
-            ontouchstart="moveNo()">No 😢</button>
+        onmouseenter="moveNo()"
+        ontouchstart="moveNo()">No 😢</button>
     </div>
 
+</div>
+
+<div class="viewer" id="viewer" onclick="closeViewer()">
+    <img id="viewerImg">
 </div>
 
 <script>
 const music = document.getElementById("music");
 
 function enableMusic(){
-    music.volume = 0.8;
+    music.volume = 0.7;
     music.play();
-    document.getElementById("musicBtn").style.display="none";
+    document.getElementById("musicBtn").style.display = "none";
 }
 
-/* NO button escape */
+/* NO button */
 function moveNo(){
-    const no=document.getElementById("no");
-    no.style.left=Math.random()*(window.innerWidth-no.offsetWidth)+"px";
-    no.style.top=Math.random()*(window.innerHeight-no.offsetHeight)+"px";
+    const no = document.getElementById("no");
+    no.style.left = Math.random() * (window.innerWidth - no.offsetWidth) + "px";
+    no.style.top = Math.random() * (window.innerHeight - no.offsetHeight) + "px";
 }
 
 /* YES */
 function yesClicked(){
     document.getElementById("card").innerHTML = `
         <img src="after.jpg">
-        <h1>I love you ❤️</h1>
+
+        <h1>I love you 🤍</h1>
+
         <p>
-        From all the moments life could have given me,<br>
-        it gave me <b>you</b> — and that’s my forever.<br><br>
-        <span style="color:#ff4d88;font-weight:bold;">
-        You smiled. I smiled.
-        </span>
+        In the quiet of the night,<br>
+        when everything slows down,<br>
+        my heart still finds its way to you.<br><br>
+
+        You are my calm,<br>
+        my warmth,<br>
+        and the reason even dark nights feel gentle.
         </p>
+
+        <div class="hindi-line">
+        Jaldi jaldi theek ho jao 💖<br>
+        I miss you
+        </div>
+
+        <video id="memoryVideo" controls>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+
+        <button onclick="showGallery()"
+        style="background:#ff5fa2;color:white;padding:10px 20px;
+        border-radius:25px;border:none;">
+        See more memories 💕
+        </button>
+
+        <div class="gallery" id="gallery">
+            <figure>
+                <img src="memory1.jpg" onclick="openViewer(this.src)">
+                <figcaption>That smile 🌙</figcaption>
+            </figure>
+            <figure>
+                <img src="memory2.jpg" onclick="openViewer(this.src)">
+                <figcaption>Us, always 🤍</figcaption>
+            </figure>
+            <figure>
+                <img src="memory3.jpg" onclick="openViewer(this.src)">
+                <figcaption>My safe place</figcaption>
+            </figure>
+        </div>
+
+        <div class="final-line">
+        I’m waiting for you 🤍
+        </div>
     `;
+
+    // 🔗 SYNC MUSIC WITH VIDEO
+    const video = document.getElementById("memoryVideo");
+
+    video.addEventListener("play", () => {
+        if (!music.paused) music.pause();
+    });
+
+    video.addEventListener("pause", () => {
+        if (music.paused) music.play();
+    });
+
+    video.addEventListener("ended", () => {
+        if (music.paused) music.play();
+    });
+}
+
+/* gallery */
+function showGallery(){
+    const g = document.getElementById("gallery");
+    g.style.display = "grid";
+    setTimeout(() => g.classList.add("show"), 10);
+}
+
+/* fullscreen viewer */
+function openViewer(src){
+    document.getElementById("viewerImg").src = src;
+    document.getElementById("viewer").style.display = "flex";
+}
+function closeViewer(){
+    document.getElementById("viewer").style.display = "none";
 }
 </script>
 
