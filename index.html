@@ -19,7 +19,7 @@ body{
     overflow:hidden;
 }
 
-/* 🌙 NIGHT OVERLAY */
+/* night overlay */
 .overlay{
     position:fixed;
     inset:0;
@@ -94,11 +94,8 @@ button{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:10px;
-    opacity:0;
-    transform:translateY(10px);
-    transition:all 0.5s ease;
 }
-.gallery.show{opacity:1;transform:translateY(0);}
+.gallery.show{display:grid;}
 .gallery img{
     width:100%;
     border-radius:15px;
@@ -117,22 +114,6 @@ video{
     margin:15px 0;
 }
 
-/* fullscreen viewer */
-.viewer{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.9);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:10;
-}
-.viewer img{
-    max-width:90%;
-    max-height:90%;
-    border-radius:20px;
-}
-
 /* special text */
 .hindi-line{
     font-size:22px;
@@ -140,7 +121,6 @@ video{
     margin:15px 0;
     color:#ff9fcf;
 }
-
 .final-line{
     font-size:18px;
     margin-top:20px;
@@ -161,28 +141,80 @@ video{
 
 <audio id="music" src="music.mp3" loop></audio>
 
-<div class="card" id="card">
+<div class="card">
 
-    <!-- SAFARI MUSIC -->
+<!-- 🔹 SCREEN 1 -->
+<div id="screen1">
+
     <button id="musicBtn" onclick="enableMusic()">Enable Music 🎵</button>
 
-    <img src="main.jpg" alt="main">
+    <img src="main.jpg">
 
     <h1>Palak 🤍</h1>
 
     <p>Will you be my Valentine? 🌙</p>
 
     <div class="buttons">
-        <button id="yes" onclick="yesClicked()">Yes 💖</button>
+        <button id="yes" onclick="showYes()">Yes 💖</button>
         <button id="no"
-        onmouseenter="moveNo()"
-        ontouchstart="moveNo()">No 😢</button>
+            onmouseenter="moveNo()"
+            ontouchstart="moveNo()">No 😢</button>
     </div>
 
 </div>
 
-<div class="viewer" id="viewer" onclick="closeViewer()">
-    <img id="viewerImg">
+<!-- 🔹 SCREEN 2 -->
+<div id="screen2" style="display:none;">
+
+    <img src="after.jpg">
+
+    <h1>I love you 🤍</h1>
+
+    <p>
+    In the quiet of the night,<br>
+    my heart still finds its way to you.<br><br>
+    You are my calm, my warmth,<br>
+    and my favorite feeling.
+    </p>
+
+    <div class="hindi-line">
+    Jaldi jaldi theek ho jao 💖<br>
+    I miss you
+    </div>
+
+    <!-- 🎥 VIDEO -->
+    <video id="memoryVideo" controls>
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <button onclick="showGallery()"
+    style="background:#ff5fa2;color:white;padding:10px 20px;
+    border-radius:25px;border:none;">
+    See more memories 💕
+    </button>
+
+    <!-- 📸 GALLERY -->
+    <div class="gallery" id="gallery">
+        <figure>
+            <img src="memory1.jpg">
+            <figcaption>That smile 🌙</figcaption>
+        </figure>
+        <figure>
+            <img src="memory2.jpg">
+            <figcaption>Us, always 🤍</figcaption>
+        </figure>
+        <figure>
+            <img src="memory3.jpg">
+            <figcaption>My safe place</figcaption>
+        </figure>
+    </div>
+
+    <div class="final-line">
+    I’m waiting for you 🤍
+    </div>
+
+</div>
+
 </div>
 
 <script>
@@ -191,98 +223,31 @@ const music = document.getElementById("music");
 function enableMusic(){
     music.volume = 0.7;
     music.play();
-    document.getElementById("musicBtn").style.display = "none";
+    document.getElementById("musicBtn").style.display="none";
 }
 
 /* NO button */
 function moveNo(){
-    const no = document.getElementById("no");
-    no.style.left = Math.random() * (window.innerWidth - no.offsetWidth) + "px";
-    no.style.top = Math.random() * (window.innerHeight - no.offsetHeight) + "px";
+    const no=document.getElementById("no");
+    no.style.left=Math.random()*(window.innerWidth-no.offsetWidth)+"px";
+    no.style.top=Math.random()*(window.innerHeight-no.offsetHeight)+"px";
 }
 
 /* YES */
-function yesClicked(){
-    document.getElementById("card").innerHTML = `
-        <img src="after.jpg">
+function showYes(){
+    document.getElementById("screen1").style.display="none";
+    document.getElementById("screen2").style.display="block";
 
-        <h1>I love you 🤍</h1>
-
-        <p>
-        In the quiet of the night,<br>
-        when everything slows down,<br>
-        my heart still finds its way to you.<br><br>
-
-        You are my calm,<br>
-        my warmth,<br>
-        and the reason even dark nights feel gentle.
-        </p>
-
-        <div class="hindi-line">
-        Jaldi jaldi theek ho jao 💖<br>
-        I miss you
-        </div>
-
-        <video id="memoryVideo" controls>
-            <source src="video.mp4" type="video/mp4">
-        </video>
-
-        <button onclick="showGallery()"
-        style="background:#ff5fa2;color:white;padding:10px 20px;
-        border-radius:25px;border:none;">
-        See more memories 💕
-        </button>
-
-        <div class="gallery" id="gallery">
-            <figure>
-                <img src="memory1.jpg" onclick="openViewer(this.src)">
-                <figcaption>That smile 🌙</figcaption>
-            </figure>
-            <figure>
-                <img src="memory2.jpg" onclick="openViewer(this.src)">
-                <figcaption>Us, always 🤍</figcaption>
-            </figure>
-            <figure>
-                <img src="memory3.jpg" onclick="openViewer(this.src)">
-                <figcaption>My safe place</figcaption>
-            </figure>
-        </div>
-
-        <div class="final-line">
-        I’m waiting for you 🤍
-        </div>
-    `;
-
-    // 🔗 SYNC MUSIC WITH VIDEO
     const video = document.getElementById("memoryVideo");
 
-    video.addEventListener("play", () => {
-        if (!music.paused) music.pause();
-    });
-
-    video.addEventListener("pause", () => {
-        if (music.paused) music.play();
-    });
-
-    video.addEventListener("ended", () => {
-        if (music.paused) music.play();
-    });
+    video.addEventListener("play",()=>music.pause());
+    video.addEventListener("pause",()=>music.play());
+    video.addEventListener("ended",()=>music.play());
 }
 
-/* gallery */
+/* SHOW GALLERY */
 function showGallery(){
-    const g = document.getElementById("gallery");
-    g.style.display = "grid";
-    setTimeout(() => g.classList.add("show"), 10);
-}
-
-/* fullscreen viewer */
-function openViewer(src){
-    document.getElementById("viewerImg").src = src;
-    document.getElementById("viewer").style.display = "flex";
-}
-function closeViewer(){
-    document.getElementById("viewer").style.display = "none";
+    document.getElementById("gallery").classList.add("show");
 }
 </script>
 
