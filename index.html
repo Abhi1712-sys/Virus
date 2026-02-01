@@ -19,7 +19,7 @@ body{
     overflow:hidden;
 }
 
-/* 🌙 Night overlay */
+/* Night overlay */
 .overlay{
     position:fixed;
     inset:0;
@@ -41,25 +41,16 @@ body{
     color:#f5f5f5;
 }
 
-/* Content padding */
+/* Content */
 .content{
     padding:22px;
 }
 
-/* Scrollable YES screen */
+/* Scroll */
 .scroll{
     height:100%;
     overflow-y:auto;
     -webkit-overflow-scrolling:touch;
-}
-
-/* Hide scrollbar but allow scroll */
-.scroll::-webkit-scrollbar{
-    width:4px;
-}
-.scroll::-webkit-scrollbar-thumb{
-    background:#ff9fcf;
-    border-radius:10px;
 }
 
 /* Images */
@@ -143,7 +134,7 @@ video{
 
 <div class="card">
 
-<!-- 🔹 SCREEN 1 -->
+<!-- SCREEN 1 -->
 <div id="screen1" class="content">
 
     <button id="musicBtn" onclick="enableMusic()">Enable Music 🎵</button>
@@ -158,12 +149,12 @@ video{
         <button id="yes" onclick="showYes()">Yes 💖</button>
         <button id="no"
         onmouseenter="moveNo()"
-        ontouchstart="moveNo()">No 😢</button>
+        ontouchstart="moveNoToggle()">No 😢</button>
     </div>
 
 </div>
 
-<!-- 🔹 SCREEN 2 (SCROLLABLE YES PAGE) -->
+<!-- SCREEN 2 -->
 <div id="screen2" class="scroll content" style="display:none;">
 
     <img src="after.jpg">
@@ -197,6 +188,7 @@ video{
 <script>
 const music = document.getElementById("music");
 
+/* Enable music */
 function enableMusic(){
     music.volume = 0.7;
     music.play();
@@ -204,7 +196,7 @@ function enableMusic(){
 }
 
 /* NO button */
-function moveNo(){
+function moveNoToggle(){
     const no=document.getElementById("no");
     no.style.left=Math.random()*(window.innerWidth-no.offsetWidth)+"px";
     no.style.top=Math.random()*(window.innerHeight-no.offsetHeight)+"px";
