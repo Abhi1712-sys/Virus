@@ -36,9 +36,27 @@ body{
     border-radius:30px;
     width:94%;
     max-width:430px;
-    text-align:center;
+    max-height:90vh;              /* 👈 important */
     box-shadow:0 20px 50px rgba(0,0,0,0.6);
     color:#f5f5f5;
+    overflow:hidden;              /* keeps card clean */
+}
+
+/* scrollable YES screen */
+.scroll-area{
+    max-height:80vh;
+    overflow-y:auto;
+    padding-right:6px;
+    -webkit-overflow-scrolling:touch;
+}
+
+/* hide scrollbar (still scrolls) */
+.scroll-area::-webkit-scrollbar{
+    width:4px;
+}
+.scroll-area::-webkit-scrollbar-thumb{
+    background:#ff9fcf;
+    border-radius:10px;
 }
 
 /* images */
@@ -163,8 +181,8 @@ video{
 
 </div>
 
-<!-- 🔹 SCREEN 2 -->
-<div id="screen2" style="display:none;">
+<!-- 🔹 SCREEN 2 (SCROLL ENABLED) -->
+<div id="screen2" class="scroll-area" style="display:none;">
 
     <img src="after.jpg">
 
@@ -182,7 +200,6 @@ video{
     I miss you
     </div>
 
-    <!-- 🎥 VIDEO -->
     <video id="memoryVideo" controls>
         <source src="video.mp4" type="video/mp4">
     </video>
@@ -193,7 +210,6 @@ video{
     See more memories 💕
     </button>
 
-    <!-- 📸 GALLERY -->
     <div class="gallery" id="gallery">
         <figure>
             <img src="memory1.jpg">
@@ -239,7 +255,6 @@ function showYes(){
     document.getElementById("screen2").style.display="block";
 
     const video = document.getElementById("memoryVideo");
-
     video.addEventListener("play",()=>music.pause());
     video.addEventListener("pause",()=>music.play());
     video.addEventListener("ended",()=>music.play());
